@@ -1,0 +1,57 @@
+---
+  -
+    name: "Im create a tenant using the rest API Module"
+    hosts: apic1
+    connection: local
+    gather_facts: no
+    tasks:
+      - name: "Creating Export policy"
+        aci_rest:
+          hostname: "{{hostname}}"
+          username: "{{username}}"
+          password: "{{password}}"
+          validate_certs: false
+          method: post
+          path: /api/mo/uni/fabric/.json
+          content:
+            configExportP:
+              attributes:
+                name: deepakba
+                format: json
+      - name: "Creating Export policy"
+        aci_rest:
+            hostname: "{{hostname}}"
+            username: "{{username}}"
+            password: "{{password}}"
+            validate_certs: false
+            method: post
+            path: /api/mo/uni/fabric/.json
+            content:
+              {
+                "configExportP": {
+                                   "attributes": {
+                                         "dn": "uni/fabric/configexp-deepakba",
+                                         "snapshot": "true"
+                                                 },
+                                         "children": [{
+                                           "configRsRemotePath": {
+                                               "attributes": {
+                                                  "dn": "uni/fabric/configexp-deepakba/rsRemotePath",
+                                                  "status": "deleted"
+                                                 }
+                                              }
+                                           }]
+                                }
+              }
+      - name: "Triggering the config ecxport policy"
+        aci_rest:
+          hostname: "{{hostname}}"
+          username: "{{username}}"
+          password: "{{password}}"
+          validate_certs: false
+          method: post
+          path: /api/mo/uni/fabric/configexp-deepakba.json
+          content:
+            configExportP:
+              attributes:
+                adminSt: triggered
