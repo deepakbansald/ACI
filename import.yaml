@@ -1,0 +1,72 @@
+---
+
+# ==========================================================================
+# Ansible playbook Import config policy
+# Created on 3rd Aug , 2020
+# Author: Deepak Bansal
+# ==========================================================================
+
+  - name: "Creating a Import policy "
+    hosts: apic1
+    connection: local
+    gather_facts: no
+    tasks:
+      -  name: "Creating a remote path from where you have the back-up config"
+         aci_rest:
+          hostname: "{{hostname}}"
+          username: "{{username}}"
+          password: "{{password}}"
+          validate_certs: false
+          method: post
+          path: /api/mo/uni/fabric/.json
+          content:
+            {
+              "fileRemotePath":{
+                                 "attributes":{
+                                   "dn":"uni/fabric/path-deepakba_test_pc",
+                                   "remotePort":"21",
+                                   "name":"deepakba_test_pc",
+                                   "host":"10.76.76.160",
+                                   "protocol":"ftp",
+                                   "remotePath":"/",
+                                   "userName":"tftpuser",
+                                   "userPasswd":"C!sco123"
+                                               },
+                                                  "children":[{
+                                                       "fileRsARemoteHostToEpg":{
+                                                                                  "attributes":{
+                                                                                    "tDn":"uni/tn-mgmt/mgmtp-default/oob-default"
+                                                                                    },
+                                                                                  }
+                                                              }]
+                              }
+              }
+
+
+      -  name: "Creating a Import policy"
+         aci_rest:
+           hostname: "{{hostname}}"
+           username: "{{username}}"
+           password: "{{password}}"
+           validate_certs: false
+           method: post
+           path: /api/mo/uni/fabric/.json
+           content:
+             {
+                "configImportP":{
+                   "attributes":{
+                         "dn":"uni/fabric/configimp-deepakba_test",
+                         "name":"deepakba_test",
+                         "fileName":"ce2_deepakba-2020-08-03T12-25-49.tar.gz",
+                         "importType":"merge",
+                         "adminSt":"triggered"
+                             },
+                             "children":[{
+                             "configRsRemotePath":{
+                               "attributes":{
+                                 "tnFileRemotePathName":"deepakba_test_pc"
+                                            },
+                                          }
+                                        }]
+                                      }
+                                    }
