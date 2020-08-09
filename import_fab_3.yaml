@@ -1,9 +1,4 @@
-# ==========================================================================
-# Ansible playbook Import config policy
-# Created on 3rd Aug , 2020
-# Author: Deepak Bansal
-# ==========================================================================
-
+---
   - name: "Creating a Import policy "
     hosts: apic1
     gather_facts: no
