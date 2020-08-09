@@ -14,7 +14,7 @@
     tasks:
       -  name: "Creating a remote path from where you have the back-up config"
          aci_rest:
-          hostname: "{{hostname}}"
+          hostname: apic1
           username: "{{username}}"
           password: "{{password}}"
           validate_certs: false
@@ -40,7 +40,7 @@
 
       -  name: "Creating a Import policy"
          aci_rest:
-           hostname: "{{hostname}}"
+           hostname: apic1
            username: "{{username}}"
            password: "{{password}}"
            validate_certs: false
