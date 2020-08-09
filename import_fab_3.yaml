@@ -1,11 +1,11 @@
-# ==========================================================================
+a# ==========================================================================
 # Ansible playbook Import config policy
 # Created on 3rd Aug , 2020
 # Author: Deepak Bansal
 # ==========================================================================
 
   - name: "Creating a Import policy "
-    hosts: all
+    hosts: 10.197.204.79
     connection: local
     gather_facts: no
     vars_prompt:
