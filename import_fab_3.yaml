@@ -5,7 +5,7 @@
 # ==========================================================================
 
   - name: "Creating a Import policy "
-    hosts: apic1
+    hosts: all
     connection: local
     gather_facts: no
     vars_prompt:
